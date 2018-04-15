@@ -3,4 +3,4 @@
 require './metodos'
 
 login(`whoami`, "changeit")
-logout('hauid2389yfdas')
+logout('11')
