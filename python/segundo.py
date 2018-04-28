@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/py
 print('Qual o seu nome?')
 nome = input()
 print('Qual a sua idade?')
