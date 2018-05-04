@@ -42,6 +42,17 @@ def procurar_container(args):
         if str(args.imagem).lower() in str(imagem_container).lower():
             print("Achei o container %s que contem a palavra %s no nome de sua imagem: %s" % (cada_container.short_id, args.imagem, imagem_container))
 
+def remover_container(args):
+    client = docker.from_env()
+    get_all = client.containers.list()
+    for cada_container in get_all:
+        conectando = client.containers.get(cada_container.id)
+        porta_container = conectando.attrs['PortBindings']['HostPort']
+        args.porta
+        if str(args.porta).lower() in str(porta_container).lower():
+            subprocess.call('docker stop $(docker ps -a -q)', shell=True)
+            subprocess.call('docker rm $(docker ps -a -q)', shell=True)
+
 parser = argparse.ArgumentParser(description="Meu CLI docker fodao feito durante a aula do HPD.")
 subparser = parser.add_subparsers()
 
@@ -56,6 +67,10 @@ listar_opt.set_defaults(func=listar)
 procurar_opt = subparser.add_parser('procurar')
 procurar_opt.add_argument('--imagem', required=False)
 procurar_opt.set_defaults(func=procurar_container)
+
+remover_opt = subparser.add_parser('remover')
+remover_opt.add_argument('--porta', required=True)
+remover_opt.set_defaults(func=remover_container)
 
 cmd = parser.parse_args()
 cmd.func(cmd)
