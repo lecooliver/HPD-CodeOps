@@ -42,16 +42,27 @@ def procurar_container(args):
         if str(args.imagem).lower() in str(imagem_container).lower():
             print("Achei o container %s que contem a palavra %s no nome de sua imagem: %s" % (cada_container.short_id, args.imagem, imagem_container))
 
-def remover_container(args):
-    client = docker.from_env()
-    get_all = client.containers.list()
-    for cada_container in get_all:
-        conectando = client.containers.get(cada_container.id)
-        porta_container = conectando.attrs['PortBindings']['HostPort']
-        args.porta
-        if str(args.porta).lower() in str(porta_container).lower():
-            subprocess.call('docker stop $(docker ps -a -q)', shell=True)
-            subprocess.call('docker rm $(docker ps -a -q)', shell=True)
+def remover(args):
+    """Remove os Containers que estao ocupando as portas no host"""
+    try:
+        client = docker.from_env()
+        get_all = client.containers.list()
+        for cada_container in get_all:
+            conectando = client.containers.get(cada_container.id)
+            porta = cada_container.attrs['HostConfig']['PortBindings']
+            if isinstance(porta, dict):
+                cada_container.stop() 
+                print('Container %s foi removido' % (cada_container.short_id))
+            else :
+                print ('Nenhum container removido!') 
+    except docker.errors.ImageNotFound as e:
+        logando('Erro: Esta imagem nao existe!', e)
+    except docker.errors.NotFound as e:
+        logando('Erro: Este comando nao existe!', e)
+    except Exception as e:
+        logando('Erro! Favor verificar o comando digitado', e)
+    finally:
+        print('Comando executado!!')
 
 parser = argparse.ArgumentParser(description="Meu CLI docker fodao feito durante a aula do HPD.")
 subparser = parser.add_subparsers()
@@ -69,8 +80,7 @@ procurar_opt.add_argument('--imagem', required=False)
 procurar_opt.set_defaults(func=procurar_container)
 
 remover_opt = subparser.add_parser('remover')
-remover_opt.add_argument('--porta', required=True)
-remover_opt.set_defaults(func=remover_container)
+remover_opt.set_defaults(func=remover)
 
 cmd = parser.parse_args()
 cmd.func(cmd)
