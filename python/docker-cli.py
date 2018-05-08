@@ -48,11 +48,10 @@ def remover(args):
         client = docker.from_env()
         get_all = client.containers.list()
         for cada_container in get_all:
-            conectando = client.containers.get(cada_container.id)
             porta = cada_container.attrs['HostConfig']['PortBindings']
             if isinstance(porta, dict):
                 cada_container.stop() 
-                print('Container %s foi removido' % (cada_container.short_id))
+                print('Container %s foi removido com sucesso!' % (cada_container.short_id))
             else :
                 print ('Nenhum container removido!') 
     except docker.errors.ImageNotFound as e:
