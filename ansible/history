@@ -1,0 +1,50 @@
+95 ansible -i hosts all -m ping -k
+96 ansible -i hosts all -m shell -a 'ifconfig eth0'
+97 ansible -i hosts all -m shell -a 'uname -a'
+98 ansible -i hosts all -m apt -a 'name=bb state=present'
+99 ansible -i hosts all -b -m apt -a 'name=bb state=present'
+100 ansible -i hosts all -b -m git -a 'repo=https://github.com/badtuxx/giropops-monitoring.git dest=/opt version=HEAD'
+101 sudo vim /etc/sudoers
+102 # ansible -i hosts all -b -m git -a 'repo=https://github.com/badtuxx/giropops-monitoring.git dest=/opt version=HEAD'
+103 # ansible -i hosts all -m shell -a 'uname -a'
+104 # ansible -i hosts all -b -m apt -a 'name=bb state=present'
+105 ansible -i hosts all -b -m copy -a 'src=/etc/hosts dest=/tmp/hosts-elliot-01' 
+106 ansible -i hosts all -b -m file -a 'dest=/tmp/criando-arquivo.txt mode=644 owner=ubuntu group=root'
+107 ansible -i hosts all -b -m file -a 'dest=/tmp/criando-arquivo.txt mode=644 owner=ubuntu group=root state=touch'
+108 ansible -i hosts all -b -m file -a 'dest=/tmp/criando-arquivo.txt state=absent'
+109 ansible -i hosts all -b -m file -a 'dest=/tmp/criando-diretorio mode=755 owner=ubuntu group=root state=directory'
+110 # ansible -i hosts all -b -m git -a 'repo=https://github.com/badtuxx/giropops-monitoring.git dest=/opt version=HEAD'
+111 # ansible -i hosts all -m shell -a 'uname -a'
+112 # ansible -i hosts all -b -m apt -a 'name=bb state=present' 
+
+
+
+113 # ansible -i hosts all -b -m file -a 'dest=/tmp/criando-arquivo.txt mode=644 owner=ubuntu group=root state=touch'
+114 # ansible -i hosts all -b -m file -a 'dest=/tmp/criando-arquivo.txt state=absent'
+115 # ansible -i hosts all -b -m file -a 'dest=/tmp/criando-diretorio mode=755 owner=ubuntu group=root state=directory'
+116 # ansible -i hosts all -b -m copy -a 'src=/etc/hosts dest=/tmp/hosts-elliot-01'
+117 ansible -i hosts all -b -m package -a 'name=vim state=present'
+118 ansible -i hosts all -m setup
+119 ansible -i hosts all -b -m package -a 'name=vim state=present' 
+
+
+
+
+# ansible -i hosts all -b -m file -a 'dest=/tmp/criando-diretorio mode=755 owner=ubuntu group=root state=directory' 
+# ansible -i hosts all -b -m copy -a 'src=/etc/hosts dest=/tmp/hosts-elliot-01' 
+# ansible -i hosts all -m setup -a 'filter=ansible_nodename' 
+# ansible -i hosts web -b -m apt -a "name=nginx state=present" 
+# ansible -i hosts webserver -m service -a "name=nginx state=started" 
+# ansible -i hosts all -b -m user -a "name=giropops2 password='$6$randon_salt$FDhtFwy2AXaqHZxkPueo7sgS7WriitQAboNu7HOCY4s59.sMw3WUvhxEP.GpyO14z6hhjyLh497ZqSpNVO3nV0'" 
+# ansible -i hosts all -m ping 
+# 1 - Instalar um NGINX com a pagina index.html personalizada. 
+# obs - nao esqueca de criar um arquivo index.html para que possa ser copiado para a maquina alvo 
+# obs - nao esqueca de verificar o caminho default do index.html na maquina alvo 
+# obs - nao esqueca de instalar e chekcar que esta em pe o servico
+
+
+
+
+
+ubuntu@elliot-01:~/aula-ansible/nginx$ mkdir roles/web/handlers 
+ubuntu@elliot-01:~/aula-ansible/nginx$ vim roles/web/handlers/main.yml 
